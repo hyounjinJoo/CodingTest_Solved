@@ -33,3 +33,9 @@
 
 # visual studio setting
 .vs
+
+# ETC
+*.idb
+*.pdb
+*.log
+*.ilk
