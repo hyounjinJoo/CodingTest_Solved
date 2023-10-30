@@ -2,6 +2,7 @@
 //
 
 #include <iostream>
+#include <cstring>
 
 
 
@@ -12,9 +13,9 @@
 
 void CheckSign(const char& number, char& signNum);
 char isAbsoluteBiggerLeft(const char* num1, const char* num2);
-void Add(const char* num1, const char* num2, const char& signNum1, const char& signNum2);
-void Minus(const char* num1, const char* num2, const char& signNum1, const char& signNum2);
-void Multiply(const char* num1, const char* num2, const char& signNum1, const char& signNum2);
+void AddNumbers(const char* num1, const char* num2, const char& signNum1, const char& signNum2);
+void SubtractNumbers(const char* num1, const char* num2, const char& signNum1, const char& signNum2);
+void MultiplyNumbers(const char* num1, const char* num2, const char& signNum1, const char& signNum2);
 
 enum eSign
 {
@@ -42,7 +43,9 @@ int main()
 	CheckSign(num1[0], signNum1);
 	CheckSign(num2[0], signNum2);
 
-	Add(num1, num2, signNum1, signNum2);
+	AddNumbers(num1, num2, signNum1, signNum2);
+	SubtractNumbers(num1, num2, signNum1, signNum2);
+	MultiplyNumbers(num1, num2, signNum1, signNum2);
 
 
 	return 0;
@@ -65,7 +68,7 @@ char isAbsoluteBiggerLeft(const char* num1, const char* num2)
 	size_t sizeOfNum1 = std::strlen(num1);
 	size_t sizeOfNum2 = std::strlen(num2);
 
-	char result = 0;
+	char result = static_cast<char>(eBiggerResult::Equal);
 
 	if (sizeOfNum1 > sizeOfNum2)
 	{
@@ -95,9 +98,30 @@ char isAbsoluteBiggerLeft(const char* num1, const char* num2)
 	return result;
 }
 
-void Add(const char* num1, const char* num2, const char& signNum1, const char& signNum2)
+void AddNumbers(const char* num1, const char* num2, const char& signNum1, const char& signNum2)
 {
 	int signResult = signNum1 + signNum2;
+	
+	int result[1001] = {};
+
+	int indexA = std::strlen(num1) - 1;// 부호 제거
+	int indexB = std::strlen(num2) - 1;
+
+	for (; indexB >= 0; --indexB)
+	{
+		if (indexA >= 0)
+		{
+			result[indexA] = (num1[indexA] - '0') + (num2[indexB] - '0');
+		}
+
+		--indexA;
+	}
+
+	for (; indexA >= 0; --indexA)
+	{
+		result[indexA] = num1[indexA] - '0';
+	}
+
 	// 더해서 1이면 한쪽이 음수
 	// 더해서 0이면 둘다 양수
 	// 더해서 2이면 둘다 음수
@@ -105,10 +129,10 @@ void Add(const char* num1, const char* num2, const char& signNum1, const char& s
 
 }
 
-void Minus(const char* num1, const char* num2, const char& signNum1, const char& signNum2)
+void SubtractNumbers(const char* num1, const char* num2, const char& signNum1, const char& signNum2)
 {
 }
 
-void Multiply(const char* num1, const char* num2, const char& signNum1, const char& signNum2)
+void MultiplyNumbers(const char* num1, const char* num2, const char& signNum1, const char& signNum2)
 {
 }
